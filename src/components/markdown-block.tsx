@@ -27,15 +27,18 @@ export function MarkdownBlock({ content, sx }: MarkdownBlockProps) {
           "& code": {
             px: 0.75,
             py: 0.15,
-            borderRadius: 1,
+            borderRadius: 12,
             backgroundColor: "rgba(15, 23, 42, 0.06)",
             fontFamily: '"Cascadia Code", "Consolas", monospace'
           },
           "& pre": {
             overflowX: "auto",
-            p: 1.5,
-            borderRadius: 2,
-            backgroundColor: "rgba(15, 23, 42, 0.06)"
+            my: 1,
+            backgroundColor: "transparent"
+          },
+          "& pre > div": {
+            overflow: "hidden",
+            borderRadius: 3
           },
           "& pre code": {
             p: 0,
@@ -74,8 +77,10 @@ export function MarkdownBlock({ content, sx }: MarkdownBlockProps) {
                   margin: 0,
                   padding: "1rem",
                   borderRadius: "12px",
-                  backgroundColor: "rgba(15, 23, 42, 0.06)",
-                  fontSize: "0.92rem"
+                  backgroundColor: "rgba(15, 23, 42, 0.00)",
+                  fontSize: "0.92rem",
+                  overflowX: "auto",
+                  boxSizing: "border-box"
                 }}
                 codeTagProps={{
                   style: {
