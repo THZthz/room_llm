@@ -311,16 +311,15 @@ export function AdminApp() {
               variant="overline"
               sx={{ color: "primary.main", fontWeight: 700 }}
             >
-              Admin Console
+              管理控制台
             </Typography>
-            <Typography variant="h4">Enter the server password</Typography>
+            <Typography variant="h4">输入服务器密码</Typography>
             <Typography color="text.secondary">
-              This dashboard is intended for the room operator on the same
-              network.
+              此仪表盘仅供同一网络下的房间操作员使用。
             </Typography>
             {error ? <Alert severity="error">{error}</Alert> : null}
             <TextField
-              label="Password"
+              label="密码"
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -332,7 +331,7 @@ export function AdminApp() {
                 onClick={handleLogin}
                 disabled={busy || !password}
               >
-                Unlock admin view
+                解锁管理员视图
               </Button>
             </Box>
           </Stack>
@@ -356,27 +355,28 @@ export function AdminApp() {
                 variant="overline"
                 sx={{ color: "secondary.main", fontWeight: 700 }}
               >
-                Admin Console
+                管理控制台
               </Typography>
-              <Typography variant="h4">Live room control</Typography>
+              <Typography variant="h4">实时房间控制</Typography>
               <Typography color="text.secondary">
-                Monitor clients, control access, summarize discussion, and chat
-                with the shared context.
+                监控客户端、控制访问权限、总结讨论并与共享上下文进行聊天。
               </Typography>
             </Box>
             <Stack direction="row" spacing={1} alignItems="center">
               <Chip
                 color={socketConnected ? "primary" : "default"}
-                label={socketConnected ? "Live" : "Polling only"}
+                label={socketConnected ? "实时连接" : "仅轮询"}
               />
               <Chip
                 color={llmEnabled ? "secondary" : "default"}
                 label={
-                  llmEnabled ? "Client LLM enabled" : "Client LLM disabled"
+                  llmEnabled
+                    ? "客户端LLM已启用"
+                    : "客户端LLM已禁用"
                 }
               />
               <Button variant="outlined" onClick={handleLogout}>
-                Log out
+                退出登录
               </Button>
             </Stack>
           </Stack>
@@ -392,18 +392,18 @@ export function AdminApp() {
             alignItems={{ xs: "flex-start", md: "center" }}
           >
             <Box>
-              <Typography variant="h6">Client LLM access</Typography>
+              <Typography variant="h6">客户端LLM访问权限</Typography>
               <Typography color="text.secondary">
-                This toggle immediately affects all connected client pages.
+                此开关会立即影响所有连接的客户端页面。
               </Typography>
             </Box>
             <Stack direction="row" spacing={1} alignItems="center">
-              <Typography>Disabled</Typography>
+              <Typography>禁用</Typography>
               <Switch
                 checked={llmEnabled}
                 onChange={(_, checked) => handleToggle(checked)}
               />
-              <Typography>Enabled</Typography>
+              <Typography>启用</Typography>
             </Stack>
           </Stack>
         </Paper>
@@ -417,18 +417,17 @@ export function AdminApp() {
               alignItems={{ xs: "flex-start", md: "center" }}
             >
               <Box>
-                <Typography variant="h6">Clients</Typography>
+                <Typography variant="h6">客户端</Typography>
                 <Typography color="text.secondary">
-                  Select specific clients to scope summaries and admin chat.
-                  With no selection, admin actions use all clients.
+                  选择特定客户端以限定总结范围和管理员聊天。未选择时，管理员操作将作用于所有客户端。
                 </Typography>
               </Box>
               <Stack direction="row" spacing={1} alignItems="center">
                 <Chip
                   label={
                     selectedClientIds.length
-                      ? `${selectedClientIds.length} selected`
-                      : "All clients in scope"
+                      ? `已选 ${selectedClientIds.length} 个`
+                      : "作用于所有客户端"
                   }
                   color={selectedClientIds.length ? "secondary" : "default"}
                 />
@@ -437,18 +436,18 @@ export function AdminApp() {
                   onClick={clearClientSelection}
                   disabled={selectedClientIds.length === 0}
                 >
-                  Clear selection
+                  清除选择
                 </Button>
               </Stack>
             </Stack>
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell padding="checkbox">Use</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Messages</TableCell>
-                  <TableCell>Last seen</TableCell>
+                  <TableCell padding="checkbox">#</TableCell>
+                  <TableCell>名称</TableCell>
+                  <TableCell>状态</TableCell>
+                  <TableCell>消息数</TableCell>
+                  <TableCell>最后活跃</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -465,7 +464,7 @@ export function AdminApp() {
                       <Chip
                         size="small"
                         color={client.connected ? "primary" : "default"}
-                        label={client.connected ? "Connected" : "Offline"}
+                        label={client.connected ? "在线" : "离线"}
                       />
                     </TableCell>
                     <TableCell>{client.messageCount}</TableCell>
@@ -489,9 +488,9 @@ export function AdminApp() {
               spacing={2}
             >
               <Box>
-                <Typography variant="h6">Summaries</Typography>
+                <Typography variant="h6">总结</Typography>
                 <Typography color="text.secondary">
-                  Generate a room-wide summary from client conversations.
+                  根据客户端对话生成房间范围的总结。
                 </Typography>
               </Box>
               <Box>
@@ -502,16 +501,14 @@ export function AdminApp() {
                   disabled={busy}
                 >
                   {selectedClientIds.length
-                    ? "Summarize selected clients"
-                    : "Summarize all clients"}
+                    ? "总结所选客户端"
+                    : "总结所有客户端"}
                 </Button>
               </Box>
             </Stack>
             <Stack spacing={1.5}>
               {summaries.length === 0 ? (
-                <Typography color="text.secondary">
-                  No summaries yet.
-                </Typography>
+                <Typography color="text.secondary">暂无总结。</Typography>
               ) : (
                 summaries.map((summary) => (
                   <Paper key={summary.id} variant="outlined" sx={{ p: 2 }}>
@@ -531,26 +528,25 @@ export function AdminApp() {
 
         <Paper sx={{ p: 3 }}>
           <Stack spacing={2}>
-            <Typography variant="h6">Admin chat</Typography>
+            <Typography variant="h6">管理员聊天</Typography>
             <Typography color="text.secondary">
-              Use no context, recent summaries, or full client transcripts in
-              each admin prompt.
+              每次提示时可选择不使用上下文、使用近期总结或完整的客户端记录。
             </Typography>
             <FormControl sx={{ maxWidth: 240 }}>
-              <InputLabel id="context-mode-label">Context</InputLabel>
+              <InputLabel id="context-mode-label">上下文</InputLabel>
               <Select
                 labelId="context-mode-label"
                 value={contextMode}
                 label="Context"
                 onChange={(event) => setContextMode(event.target.value)}
               >
-                <MenuItem value="none">No client context</MenuItem>
-                <MenuItem value="summary">Recent summaries</MenuItem>
-                <MenuItem value="full">Full client transcripts</MenuItem>
+                <MenuItem value="none">无客户端上下文</MenuItem>
+                <MenuItem value="summary">近期总结</MenuItem>
+                <MenuItem value="full">完整客户端记录</MenuItem>
               </Select>
             </FormControl>
             <TextField
-              label="Prompt"
+              label="提示"
               value={prompt}
               onChange={(event) => setPrompt(event.target.value)}
               multiline
@@ -563,14 +559,14 @@ export function AdminApp() {
                 onClick={handleAdminChat}
                 disabled={busy || !prompt.trim()}
               >
-                Ask admin assistant
+                询问助手
               </Button>
             </Box>
             <Paper variant="outlined" sx={{ p: 2, minHeight: 140 }}>
               {lastAdminPrompt ? (
                 <>
                   <Typography variant="caption" color="text.secondary">
-                    Operator
+                    操作员
                   </Typography>
                   <MarkdownBlock content={lastAdminPrompt} />
                   <Typography
@@ -578,16 +574,16 @@ export function AdminApp() {
                     color="text.secondary"
                     sx={{ display: "block", mt: 2 }}
                   >
-                    Assistant
+                    助手
                   </Typography>
                   {adminReply ? (
                     <MarkdownBlock content={adminReply} />
                   ) : (
-                    <Typography>Thinking...</Typography>
+                    <Typography>正在思考...</Typography>
                   )}
                 </>
               ) : (
-                <Typography>No admin response yet.</Typography>
+                <Typography>尚无助手回复。</Typography>
               )}
             </Paper>
           </Stack>

@@ -315,12 +315,11 @@ export function ClientApp() {
                 variant="overline"
                 sx={{ color: "primary.main", fontWeight: 700 }}
               >
-                Client Console
+                客户端控制台
               </Typography>
-              <Typography variant="h4">Chat with the room assistant</Typography>
+              <Typography variant="h4">与房间助手聊天</Typography>
               <Typography color="text.secondary">
-                Your browser talks only to the server. The server decides when
-                LLM access is allowed.
+                您的浏览器仅与服务器通信。服务器决定何时允许访问LLM。
               </Typography>
             </Box>
             <Stack
@@ -335,7 +334,7 @@ export function ClientApp() {
               />
               <Chip
                 color={llmEnabled ? "secondary" : "default"}
-                label={llmEnabled ? "LLM enabled" : "LLM disabled"}
+                label={llmEnabled ? "LLM已启用" : "LLM已禁用"}
               />
             </Stack>
           </Stack>
@@ -346,13 +345,12 @@ export function ClientApp() {
         {!session ? (
           <Paper sx={{ p: 3 }}>
             <Stack spacing={2}>
-              <Typography variant="h6">Register your name</Typography>
+              <Typography variant="h6">注册小组名称</Typography>
               <Typography color="text.secondary">
-                Names must be unique while connected. Development mode keeps
-                device restrictions relaxed.
+                连接期间名称必须唯一。开发模式会放宽设备限制。
               </Typography>
               <TextField
-                label="Your name"
+                label="小组名称"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 fullWidth
@@ -363,7 +361,7 @@ export function ClientApp() {
                   onClick={handleRegister}
                   disabled={busy || !name.trim()}
                 >
-                  Join room
+                  加入房间
                 </Button>
               </Box>
             </Stack>
@@ -379,10 +377,10 @@ export function ClientApp() {
               >
                 <Box>
                   <Typography variant="h6">
-                    Signed in as {session.clientName}
+                    已登录为 {session.clientName}
                   </Typography>
                   <Typography color="text.secondary">
-                    Session is stored locally in this browser.
+                    会话本地存储于此浏览器中。
                   </Typography>
                 </Box>
                 <Button
@@ -390,19 +388,17 @@ export function ClientApp() {
                   color="secondary"
                   onClick={resetIdentity}
                 >
-                  Reset identity
+                  重置身份
                 </Button>
               </Stack>
             </Paper>
 
             <Paper sx={{ p: 3 }}>
               <Stack spacing={2}>
-                <Typography variant="h6">Conversation</Typography>
+                <Typography variant="h6">对话</Typography>
                 <Stack spacing={1.5}>
                   {messages.length === 0 ? (
-                    <Typography color="text.secondary">
-                      No messages yet.
-                    </Typography>
+                    <Typography color="text.secondary">暂无消息。</Typography>
                   ) : (
                     messages.map((message) => (
                       <Box
@@ -427,13 +423,13 @@ export function ClientApp() {
                         <Typography variant="caption" sx={{ opacity: 0.78 }}>
                           {message.role === "user"
                             ? session.clientName
-                            : "Assistant"}
+                            : "助手"}
                         </Typography>
                         <MarkdownBlock
                           content={
                             message.content ||
                             (message.role === "assistant" && busy
-                              ? "Thinking..."
+                              ? "正在思考..."
                               : "")
                           }
                           sx={{
@@ -465,12 +461,11 @@ export function ClientApp() {
               <Stack spacing={2}>
                 {!llmEnabled ? (
                   <Alert severity="warning">
-                    The server has temporarily disabled client access to the
-                    LLM.
+                    服务器已暂时禁用客户端对LLM的访问。
                   </Alert>
                 ) : null}
                 <TextField
-                  label="Message"
+                  label="消息"
                   value={draft}
                   onChange={(event) => setDraft(event.target.value)}
                   multiline
@@ -484,7 +479,7 @@ export function ClientApp() {
                     onClick={handleSend}
                     disabled={busy || !draft.trim() || !llmEnabled}
                   >
-                    Send
+                    发送
                   </Button>
                 </Box>
               </Stack>
