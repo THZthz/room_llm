@@ -317,7 +317,7 @@ export function ClientApp() {
               >
                 客户端控制台
               </Typography>
-              <Typography variant="h4">与房间助手聊天</Typography>
+              <Typography variant="h4">与房间助教聊天</Typography>
               <Typography color="text.secondary">
                 您的浏览器仅与服务器通信。服务器决定何时允许访问LLM。
               </Typography>
@@ -423,7 +423,7 @@ export function ClientApp() {
                         <Typography variant="caption" sx={{ opacity: 0.78 }}>
                           {message.role === "user"
                             ? session.clientName
-                            : "助手"}
+                            : "助教"}
                         </Typography>
                         <MarkdownBlock
                           content={

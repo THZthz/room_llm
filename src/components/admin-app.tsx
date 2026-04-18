@@ -528,7 +528,7 @@ export function AdminApp() {
 
         <Paper sx={{ p: 3 }}>
           <Stack spacing={2}>
-            <Typography variant="h6">管理员聊天</Typography>
+            <Typography variant="h6">与助教聊天</Typography>
             <Typography color="text.secondary">
               每次提示时可选择不使用上下文、使用近期总结或完整的小组记录。
             </Typography>
@@ -559,14 +559,14 @@ export function AdminApp() {
                 onClick={handleAdminChat}
                 disabled={busy || !prompt.trim()}
               >
-                询问助手
+                询问助教
               </Button>
             </Box>
             <Paper variant="outlined" sx={{ p: 2, minHeight: 140 }}>
               {lastAdminPrompt ? (
                 <>
                   <Typography variant="caption" color="text.secondary">
-                    操作员
+                    老师
                   </Typography>
                   <MarkdownBlock content={lastAdminPrompt} />
                   <Typography
@@ -574,7 +574,7 @@ export function AdminApp() {
                     color="text.secondary"
                     sx={{ display: "block", mt: 2 }}
                   >
-                    助手
+                    助教
                   </Typography>
                   {adminReply ? (
                     <MarkdownBlock content={adminReply} />
@@ -583,7 +583,7 @@ export function AdminApp() {
                   )}
                 </>
               ) : (
-                <Typography>尚无助手回复。</Typography>
+                <Typography>尚无助教回复。</Typography>
               )}
             </Paper>
           </Stack>
