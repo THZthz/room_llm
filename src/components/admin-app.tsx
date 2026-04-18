@@ -359,7 +359,7 @@ export function AdminApp() {
               </Typography>
               <Typography variant="h4">实时房间控制</Typography>
               <Typography color="text.secondary">
-                监控客户端、控制访问权限、总结讨论并与共享上下文进行聊天。
+                查看小组、控制访问权限、总结讨论并与共享上下文进行聊天。
               </Typography>
             </Box>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -371,8 +371,8 @@ export function AdminApp() {
                 color={llmEnabled ? "secondary" : "default"}
                 label={
                   llmEnabled
-                    ? "客户端LLM已启用"
-                    : "客户端LLM已禁用"
+                    ? "小组的LLM已启用"
+                    : "小组的LLM已禁用"
                 }
               />
               <Button variant="outlined" onClick={handleLogout}>
@@ -392,9 +392,9 @@ export function AdminApp() {
             alignItems={{ xs: "flex-start", md: "center" }}
           >
             <Box>
-              <Typography variant="h6">客户端LLM访问权限</Typography>
+              <Typography variant="h6">小组LLM访问权限</Typography>
               <Typography color="text.secondary">
-                此开关会立即影响所有连接的客户端页面。
+                此开关会立即影响所有连接的小组页面。
               </Typography>
             </Box>
             <Stack direction="row" spacing={1} alignItems="center">
@@ -417,9 +417,9 @@ export function AdminApp() {
               alignItems={{ xs: "flex-start", md: "center" }}
             >
               <Box>
-                <Typography variant="h6">客户端</Typography>
+                <Typography variant="h6">小组列表</Typography>
                 <Typography color="text.secondary">
-                  选择特定客户端以限定总结范围和管理员聊天。未选择时，管理员操作将作用于所有客户端。
+                  选择特定小组以限定总结范围和助教聊天。未选择时，操作将作用于所有小组。
                 </Typography>
               </Box>
               <Stack direction="row" spacing={1} alignItems="center">
@@ -427,7 +427,7 @@ export function AdminApp() {
                   label={
                     selectedClientIds.length
                       ? `已选 ${selectedClientIds.length} 个`
-                      : "作用于所有客户端"
+                      : "作用于所有小组"
                   }
                   color={selectedClientIds.length ? "secondary" : "default"}
                 />
@@ -490,7 +490,7 @@ export function AdminApp() {
               <Box>
                 <Typography variant="h6">总结</Typography>
                 <Typography color="text.secondary">
-                  根据客户端对话生成房间范围的总结。
+                  根据所有小组的对话生成的总结。
                 </Typography>
               </Box>
               <Box>
@@ -501,8 +501,8 @@ export function AdminApp() {
                   disabled={busy}
                 >
                   {selectedClientIds.length
-                    ? "总结所选客户端"
-                    : "总结所有客户端"}
+                    ? "总结所选小组"
+                    : "总结所有小组"}
                 </Button>
               </Box>
             </Stack>
@@ -530,7 +530,7 @@ export function AdminApp() {
           <Stack spacing={2}>
             <Typography variant="h6">管理员聊天</Typography>
             <Typography color="text.secondary">
-              每次提示时可选择不使用上下文、使用近期总结或完整的客户端记录。
+              每次提示时可选择不使用上下文、使用近期总结或完整的小组记录。
             </Typography>
             <FormControl sx={{ maxWidth: 240 }}>
               <InputLabel id="context-mode-label">上下文</InputLabel>
@@ -540,9 +540,9 @@ export function AdminApp() {
                 label="Context"
                 onChange={(event) => setContextMode(event.target.value)}
               >
-                <MenuItem value="none">无客户端上下文</MenuItem>
-                <MenuItem value="summary">近期总结</MenuItem>
-                <MenuItem value="full">完整客户端记录</MenuItem>
+                <MenuItem value="none">无小组上下文</MenuItem>
+                <MenuItem value="summary">最近一次总结</MenuItem>
+                <MenuItem value="full">完整小组记录</MenuItem>
               </Select>
             </FormControl>
             <TextField

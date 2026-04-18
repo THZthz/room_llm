@@ -5,10 +5,11 @@ import { getLanguageModel } from "@/lib/ai/providers";
 import { getSessionByToken } from "@/lib/domain/clients";
 import { getClientMessages, saveMessage } from "@/lib/domain/messages";
 import { getLiveState } from "@/lib/state/live";
+import { messageTemplate } from "@/lib/ai/template";
 
 const bodySchema = z.object({
   sessionToken: z.string().uuid(),
-  message: z.string().min(1).max(4000)
+  message: z.string().min(1).max(4000),
 });
 
 export async function POST(request: Request) {
@@ -17,11 +18,17 @@ export async function POST(request: Request) {
     const session = getSessionByToken(body.sessionToken);
 
     if (!session) {
-      return NextResponse.json({ error: "Session expired. Register again." }, { status: 401 });
+      return NextResponse.json(
+        { error: "Session expired. Register again." },
+        { status: 401 },
+      );
     }
 
     if (!getLiveState().isLlmEnabled()) {
-      return NextResponse.json({ error: "The server has disabled client LLM access." }, { status: 403 });
+      return NextResponse.json(
+        { error: "The server has disabled client LLM access." },
+        { status: 403 },
+      );
     }
 
     saveMessage("client", "user", body.message, session.clientId);
@@ -31,8 +38,11 @@ export async function POST(request: Request) {
 
     const result = streamText({
       model: getLanguageModel(),
-      system: `You are a helpful assistant for ${session.clientName}. Keep answers concise and practical.`,
-      prompt: `Conversation so far:\n${history}\n\nRespond to the latest user message.`
+      system: messageTemplate(
+        "你是一名老师的助教，他正在上课，你正在帮助这名老师，与一组小学学生进行对话（他们给他们小组的名字是“${session.clientName}”），引导他们入门除法算式。你的回答应生动、且具有引导性。**注意**：你的对话对象的身份一直是小学学生，审慎地考虑你的语气与回答偏向。",
+        "你的回答会按照commonmark标准被渲染，然后呈现给用户——即学生，参考以下样本，让你的回答更清晰。此外，你的回答中**绝不**应该包含*latex*格式的代码，因为它们不会被正确渲染。\n\n**注意**：下面的样本是老师所使用的，你作为老师的助教，适当考虑你应该如何回答，和你对话的只有学生。",
+      ),
+      prompt: `## 截止目前的对话（回答最近一次的学生的问题）\n${history}\n\n`,
     });
 
     const encoder = new TextEncoder();
@@ -55,19 +65,22 @@ export async function POST(request: Request) {
           } catch (streamError) {
             controller.error(streamError);
           }
-        }
+        },
       }),
       {
         headers: {
           "Content-Type": "text/plain; charset=utf-8",
-          "Cache-Control": "no-cache, no-transform"
-        }
-      }
+          "Cache-Control": "no-cache, no-transform",
+        },
+      },
     );
   } catch (error) {
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Unable to send message." },
-      { status: 400 }
+      {
+        error:
+          error instanceof Error ? error.message : "Unable to send message.",
+      },
+      { status: 400 },
     );
   }
 }

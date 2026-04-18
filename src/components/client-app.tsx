@@ -17,7 +17,7 @@ import { createRoomSocket } from "@/lib/socket/client";
 
 type ChatMessage = {
   id: number | string;
-  role: "user" | "assistant";
+  role: "system" | "user" | "assistant";
   content: string;
   createdAt: string;
 };
