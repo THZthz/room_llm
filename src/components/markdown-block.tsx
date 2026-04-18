@@ -29,26 +29,26 @@ export function MarkdownBlock({ content, sx }: MarkdownBlockProps) {
             py: 0.15,
             borderRadius: 12,
             backgroundColor: "rgba(15, 23, 42, 0.06)",
-            fontFamily: '"Cascadia Code", "Consolas", monospace'
+            fontFamily: '"Cascadia Code", "Consolas", monospace',
           },
           "& pre": {
             overflowX: "auto",
             my: 1,
-            backgroundColor: "transparent"
+            backgroundColor: "transparent",
           },
           "& pre > div": {
             overflow: "hidden",
-            borderRadius: 3
+            borderRadius: 3,
           },
           "& pre code": {
             p: 0,
-            backgroundColor: "transparent"
+            backgroundColor: "transparent",
           },
           "& strong": {
-            fontWeight: 700
-          }
+            fontWeight: 700,
+          },
         },
-        ...(Array.isArray(sx) ? sx : sx ? [sx] : [])
+        ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
       ]}
     >
       <ReactMarkdown
@@ -80,18 +80,18 @@ export function MarkdownBlock({ content, sx }: MarkdownBlockProps) {
                   backgroundColor: "rgba(15, 23, 42, 0.00)",
                   fontSize: "0.92rem",
                   overflowX: "auto",
-                  boxSizing: "border-box"
+                  boxSizing: "border-box",
                 }}
                 codeTagProps={{
                   style: {
-                    fontFamily: '"Cascadia Code", "Consolas", monospace'
-                  }
+                    fontFamily: '"Cascadia Code", "Consolas", monospace',
+                  },
                 }}
               >
                 {code}
               </SyntaxHighlighter>
             );
-          }
+          },
         }}
       >
         {content}
